@@ -20,10 +20,7 @@ struct TabBarView: View {
                     Label("Chats", systemImage: "bubble.left.and.bubble.right.fill")
                 }
             
-            NavigationStack {
-                Text("Profile")
-                    .navigationTitle("Profile")
-            }
+            ProfileView()
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }

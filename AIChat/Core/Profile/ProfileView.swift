@@ -29,11 +29,15 @@ struct ProfileView: View {
     
     private var settingsButton: some View {
         Button {
-            showSettingsView = true
+            onSettingsButtonPressed()
         } label: {
             Image(systemName: "gear")
                 .font(.headline)
         }
+    }
+    
+    private func onSettingsButtonPressed() {
+        showSettingsView = true
     }
 }
 

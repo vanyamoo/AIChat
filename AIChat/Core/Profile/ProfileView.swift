@@ -17,18 +17,22 @@ struct ProfileView: View {
                 .navigationTitle("Profile")
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            showSettingsView = true
-                        } label: {
-                            Image(systemName: "gear")
-                                .font(.headline)
-                        }
+                        settingsButton
 
                     }
                 }
         }
         .sheet(isPresented: $showSettingsView) {
             Text("SettingsView")
+        }
+    }
+    
+    private var settingsButton: some View {
+        Button {
+            showSettingsView = true
+        } label: {
+            Image(systemName: "gear")
+                .font(.headline)
         }
     }
 }

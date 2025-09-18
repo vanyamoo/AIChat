@@ -10,11 +10,7 @@ import SwiftUI
 struct TabBarView: View {
     var body: some View {
         TabView {
-            NavigationStack {
-                Text("Explore")
-                    .navigationTitle("Explore")
-            }
-            
+            ExploreView()
                 .tabItem {
                     Label("Explore", systemImage: "eyes")
                 }

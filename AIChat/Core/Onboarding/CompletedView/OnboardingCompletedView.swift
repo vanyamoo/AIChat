@@ -17,12 +17,7 @@ struct OnboardingCompletedView: View {
                 // finish onboarding and enter app
             } label: {
                 Text("Finish")
-                    .font(.headline)
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 55)
-                    .background(.accent)
-                    .cornerRadius(16)
+                    .callToActionButton()
             }
 
         }

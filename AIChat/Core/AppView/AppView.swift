@@ -7,6 +7,19 @@
 
 import SwiftUI
 
+@Observable
+class AppState {
+    private(set) var showTabBar: Bool
+    
+    init(showTabBarView: Bool) {
+        self.showTabBar = showTabBarView
+    }
+    
+    func updateViewState(showTabBarView: Bool) {
+        showTabBar = showTabBarView
+    }
+}
+
 struct AppView: View {
     
     @AppStorage("showTabbarView") var showTabBar: Bool = false

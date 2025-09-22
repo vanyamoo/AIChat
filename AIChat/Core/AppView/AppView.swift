@@ -11,16 +11,32 @@ import SwiftUI
 class AppState {
     private(set) var showTabBar: Bool {
         didSet {
-            UserDefaults.standard.set(showTabBar, forKey: "showTabbarView")
+            UserDefaults.showTabbarView = showTabBar
         }
     }
     
-    init(showTabBarView: Bool = UserDefaults.standard.bool(forKey: "showTabbarView")) {
+    init(showTabBarView: Bool = UserDefaults.showTabbarView) {
         self.showTabBar = showTabBarView
     }
     
     func updateViewState(showTabBarView: Bool) {
         showTabBar = showTabBarView
+    }
+}
+
+extension UserDefaults {
+    
+    private struct Keys {
+        static let showTabbarView = "showTabbarView"
+    }
+    
+    static var showTabbarView: Bool {
+        get {
+            standard.bool(forKey: Keys.showTabbarView)
+        }
+        set {
+            standard.set(newValue, forKey: Keys.showTabbarView)
+        }
     }
 }
 

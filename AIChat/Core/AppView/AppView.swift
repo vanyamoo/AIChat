@@ -15,7 +15,7 @@ class AppState {
         }
     }
     
-    init(showTabBarView: Bool) {
+    init(showTabBarView: Bool = UserDefaults.standard.bool(forKey: "showTabbarView")) {
         self.showTabBar = showTabBarView
     }
     

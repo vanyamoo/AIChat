@@ -17,48 +17,61 @@ struct WelcomeView: View {
                 ImageLoaderView(urlString: imageName)
                     .ignoresSafeArea()
                 
-                VStack {
-                    Text("AI Chat 🤙")
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                    
-                    Text("YouTube @Swiftful Thinking")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                .padding(.top, 24)
+                titleSection
+                    .padding(.top, 24)
                 
-                VStack {
-                    NavigationLink {
-                        OnboardingCompletedView()
-                    } label: {
-                        Text("Get Started")
-                            .callToActionButton()
-                    }
-                    
-                    Text("Already have an account? Sign in!")
-                        .underline()
-                        .padding(8)
-                        .tappableBackground()
-                        .onTapGesture {
-                            
-                        }
-                }
-                .padding(16)
+                ctaButtons
+                    .padding(16)
                 
-                HStack {
-                    Link(destination: URL(string: Constants.termsOfserviceURL)!) {
-                        Text("Terms of Service")
-                    }
+                policyLinks
+            }
+        }
+        
+    }
+    
+    private var titleSection: some View {
+        VStack {
+            Text("AI Chat 🤙")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+            
+            Text("YouTube @Swiftful Thinking")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+    }
+    
+    private var ctaButtons: some View {
+        VStack {
+            NavigationLink {
+                OnboardingCompletedView()
+            } label: {
+                Text("Get Started")
+                    .callToActionButton()
+            }
+            
+            Text("Already have an account? Sign in!")
+                .underline()
+                .padding(8)
+                .tappableBackground()
+                .onTapGesture {
                     
-                    Circle()
-                        .fill(.accent)
-                        .frame(width: 4, height: 4)
-                    
-                    Link(destination: URL(string: Constants.privacyPolicyURL)!) {
-                        Text("Privacy Policy")
-                    }
                 }
+        }
+    }
+    
+    private var policyLinks: some View {
+        HStack {
+            Link(destination: URL(string: Constants.termsOfserviceURL)!) {
+                Text("Terms of Service")
+            }
+            
+            Circle()
+                .fill(.accent)
+                .frame(width: 4, height: 4)
+            
+            Link(destination: URL(string: Constants.privacyPolicyURL)!) {
+                Text("Privacy Policy")
             }
         }
     }

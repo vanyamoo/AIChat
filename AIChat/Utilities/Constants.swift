@@ -9,4 +9,6 @@ import Foundation
 
 struct Constants {
     static let randomImage = "https://picsum.photos/200/300"
+    static let privacyPolicyURL = "https://apple.com/"
+    static let termsOfserviceURL = "https://apple.com/"
 }

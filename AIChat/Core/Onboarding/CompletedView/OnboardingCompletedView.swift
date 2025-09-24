@@ -16,14 +16,17 @@ struct OnboardingCompletedView: View {
             Text("Onboarding Completed!")
                 .frame(maxHeight: .infinity)
             
+            
+
+        }
+        .safeAreaInset(edge: .bottom, content: {
             Button {
                 onFinishButtonPressed()
             } label: {
                 Text("Finish")
                     .callToActionButton()
             }
-
-        }
+        })
         .padding(16)
     }
     

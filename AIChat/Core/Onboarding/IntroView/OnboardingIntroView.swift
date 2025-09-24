@@ -30,7 +30,7 @@ struct OnboardingIntroView: View {
             .padding(24)
             
             NavigationLink {
-                OnboardingCompletedView()
+                OnboardingColorView()
             } label: {
                 Text("Continue")
                     .callToActionButton()

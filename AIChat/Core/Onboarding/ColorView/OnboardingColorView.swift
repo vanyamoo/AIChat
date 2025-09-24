@@ -41,10 +41,31 @@ struct OnboardingColorView: View {
             )
             .padding(.horizontal, 24)
         }
-        .animation(.smooth, value: selectedColor)
+        .safeAreaInset(edge: .bottom, alignment: .center, spacing: 16, content: {
+            ZStack {
+                if selectedColor != nil {
+                    ctaButton
+                    .transition(.move(edge: .bottom))
+                }
+            }
+            .padding(24)
+            .background(Color(.systemBackground))
+        })
+        .animation(.bouncy, value: selectedColor)
+    }
+    
+    private var ctaButton: some View {
+        NavigationLink {
+            OnboardingCompletedView()
+        } label: {
+            Text("Continue")
+                .callToActionButton()
+        }
     }
 }
 
 #Preview {
-    OnboardingColorView()
+    NavigationStack {
+        OnboardingColorView()
+    }
 }

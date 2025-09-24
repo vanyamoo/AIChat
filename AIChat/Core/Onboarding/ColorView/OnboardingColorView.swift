@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingColorView: View {
     
+    @State var selectedColor: Color?
     let profileColors: [Color] = [.red, .green, .orange, .blue, .mint, .purple, .cyan, .teal, .indigo]
     
     var body: some View {
@@ -22,7 +23,15 @@ struct OnboardingColorView: View {
                     Section(content: {
                         ForEach(profileColors, id: \.self) { color in
                             Circle()
-                                .fill(color)
+                                .fill(.accent)
+                                .overlay(
+                                    color
+                                        .clipShape(Circle())
+                                        .padding(selectedColor == color ? 10 : 0)
+                                )
+                                .onTapGesture {
+                                    selectedColor = color
+                                }
                         }
                     }, header: {
                         Text("Select a profile color")
@@ -32,6 +41,7 @@ struct OnboardingColorView: View {
             )
             .padding(.horizontal, 24)
         }
+        .animation(.smooth, value: selectedColor)
     }
 }
 

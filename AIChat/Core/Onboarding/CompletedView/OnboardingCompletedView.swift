@@ -56,8 +56,6 @@ struct OnboardingCompletedView: View {
             // TO DO: try await saveUserProfile(color: selectedColor)
             isCompletingProfileSetup = false
             
-            
-            // other logic to complete onboarding
             root.updateViewState(showTabBarView: true)
         }
     }

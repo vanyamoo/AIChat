@@ -42,5 +42,7 @@ struct OnboardingIntroView: View {
 }
 
 #Preview {
-    OnboardingIntroView()
+    NavigationStack {
+        OnboardingIntroView()
+    }
 }

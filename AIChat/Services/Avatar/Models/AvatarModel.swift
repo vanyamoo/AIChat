@@ -38,6 +38,10 @@ struct AvatarModel {
         self.dateCreated = dateCreated
     }
     
+    var characterDescription: String {
+        AvatarDescriptionBuilder(avatar: self).characterDescription
+    }
+    
     static var mock: AvatarModel {
         mocks[0]
     }
@@ -52,14 +56,48 @@ struct AvatarModel {
     }
 }
 
-enum CharacterOption {
+struct AvatarDescriptionBuilder {
+    var characterOption: CharacterOption
+    var characterAction: CharacterAction
+    var characterLocation: CharacterLocation
+    
+    init(characterOption: CharacterOption, characterAction: CharacterAction, characterLocation: CharacterLocation) {
+        self.characterOption = characterOption
+        self.characterAction = characterAction
+        self.characterLocation = characterLocation
+    }
+    
+    init(avatar: AvatarModel) {
+        self.characterOption = avatar.characterOption ?? .defaultValue
+        self.characterAction = avatar.characterAction ?? .defaultValue
+        self.characterLocation = avatar.characterLocation ?? .defaultValue
+    }
+    
+    var characterDescription: String {
+        "A \(characterOption.rawValue) that is \(characterAction.rawValue) in the \(characterLocation.rawValue)"
+    }
+}
+
+enum CharacterOption: String {
     case man, woman, alien, cat, dog
+    
+    static var defaultValue: Self {
+        .man
+    }
 }
 
-enum CharacterAction {
+enum CharacterAction: String {
     case smiling, sitting, eating, drinking, walking, shopping, studying, working, relaxing, fighting, crying
+    
+    static var defaultValue: Self {
+        .smiling
+    }
 }
 
-enum CharacterLocation {
+enum CharacterLocation: String {
     case office, home, park, beach, city, forest, mountain
+    
+    static var defaultValue: Self {
+        .park
+    }
 }

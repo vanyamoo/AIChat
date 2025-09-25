@@ -37,6 +37,19 @@ struct AvatarModel {
         self.authorId = authorId
         self.dateCreated = dateCreated
     }
+    
+    static var mock: AvatarModel {
+        mocks[0]
+    }
+    
+    static var mocks: [AvatarModel] {
+        [
+            AvatarModel(avatarId: UUID().uuidString, name: "Alpha", characterOption: .alien, characterAction: .smiling, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
+            AvatarModel(avatarId: UUID().uuidString, name: "Beta", characterOption: .dog, characterAction: .eating, characterLocation: .forest, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
+            AvatarModel(avatarId: UUID().uuidString, name: "Gamma", characterOption: .cat, characterAction: .drinking, characterLocation: .beach, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now),
+            AvatarModel(avatarId: UUID().uuidString, name: "Delta", characterOption: .woman, characterAction: .shopping, characterLocation: .park, profileImageName: Constants.randomImage, authorId: UUID().uuidString, dateCreated: .now)
+        ]
+    }
 }
 
 enum CharacterOption {

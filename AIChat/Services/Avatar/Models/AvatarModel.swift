@@ -13,7 +13,7 @@ struct AvatarModel {
     let name: String?
     let characterOption: CharacterOption?
     let characterAction: CharacterAction?
-    let characterLoaction: CharacterLocation?
+    let characterLocation: CharacterLocation?
     let profileImageName: String?
     let authorId: String?
     let dateCreated: Date?
@@ -23,7 +23,7 @@ struct AvatarModel {
         name: String? = nil,
         characterOption: CharacterOption? = nil,
         characterAction: CharacterAction? = nil,
-        characterLoaction: CharacterLocation? = nil,
+        characterLocation: CharacterLocation? = nil,
         profileImageName: String? = nil,
         authorId: String? = nil,
         dateCreated: Date? = nil
@@ -32,7 +32,7 @@ struct AvatarModel {
         self.name = name
         self.characterOption = characterOption
         self.characterAction = characterAction
-        self.characterLoaction = characterLoaction
+        self.characterLocation = characterLocation
         self.profileImageName = profileImageName
         self.authorId = authorId
         self.dateCreated = dateCreated

@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-struct CarouselView: View {
+struct CarouselView<T: Hashable, Content: View>: View {
     
-    var items: [AvatarModel] = AvatarModel.mocks
-    @State private var selection: AvatarModel?
+    var items: [T]
+    @State private var selection: T?
+    var content: (T) -> Content
     
     var body: some View {
         VStack {
             ScrollView(.horizontal) {
                 LazyHStack(spacing: 0) {
                     ForEach(items, id: \.self) { item in
-                        HeroCellView(
-                            title: item.name,
-                            subtitle: item.characterDescription,
-                            imageName: item.profileImageName
-                        )
+                        content(item)
                         .scrollTransition(.interactive.threshold(.visible(0.95)), transition: { content, phase in
                             content.scaleEffect(phase.isIdentity ? 1 : 0.9)
                         })

@@ -35,6 +35,11 @@ struct CarouselView: View {
             .scrollTargetLayout()
             .scrollTargetBehavior(.paging)
             .scrollPosition(id: $selection)
+            .onChange(of: items.count, { oldValue, newValue in
+                if selection == nil {
+                    selection = items.first
+                }
+            })
             .onAppear {
                 if selection == nil {
                     selection = items.first

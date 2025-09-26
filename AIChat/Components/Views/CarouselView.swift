@@ -35,7 +35,7 @@ struct CarouselView: View {
             .scrollTargetLayout()
             .scrollTargetBehavior(.paging)
             .scrollPosition(id: $selection)
-            .onChange(of: items.count, { oldValue, newValue in
+            .onChange(of: items.count, { _, _ in
                 updateSelectionIfNeeded()
             })
             .onAppear {

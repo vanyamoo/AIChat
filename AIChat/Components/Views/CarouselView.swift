@@ -58,6 +58,10 @@ struct CarouselView<T: Hashable, Content: View>: View {
 }
 
 #Preview {
-    CarouselView()
-        .padding()
+    CarouselView(
+        items: AvatarModel.mocks,
+        content: { item in
+            HeroCellView(title: item.name, subtitle: item.characterDescription, imageName: item.profileImageName)
+        })
+    .padding()
 }

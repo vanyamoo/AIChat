@@ -36,14 +36,10 @@ struct CarouselView: View {
             .scrollTargetBehavior(.paging)
             .scrollPosition(id: $selection)
             .onChange(of: items.count, { oldValue, newValue in
-                if selection == nil {
-                    selection = items.first
-                }
+                updateSelectionIfNeeded()
             })
             .onAppear {
-                if selection == nil {
-                    selection = items.first
-                }
+                updateSelectionIfNeeded()
             }
             
             HStack {
@@ -53,6 +49,12 @@ struct CarouselView: View {
                         .frame(width: 8, height: 8)
                 }
             }
+        }
+    }
+    
+    private func updateSelectionIfNeeded() {
+        if selection == nil {
+            selection = items.first
         }
     }
 }

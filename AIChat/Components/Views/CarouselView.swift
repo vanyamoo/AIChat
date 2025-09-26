@@ -53,7 +53,7 @@ struct CarouselView: View {
     }
     
     private func updateSelectionIfNeeded() {
-        if selection == nil {
+        if selection == nil || selection == items.last {
             selection = items.first
         }
     }

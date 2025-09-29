@@ -15,25 +15,29 @@ struct ExploreView: View {
         NavigationStack {
             List {
                 
-                Section {
-                    CarouselView(
-                        items: featuredAvatars,
-                        content: { avatar in
-                            HeroCellView(
-                                title: avatar.name,
-                                subtitle: avatar.characterDescription,
-                                imageName: avatar.profileImageName
-                            )
-                        }
-                    )
-                    .removeListRowFormatting()
-                    
-                } header: {
-                    Text("Featured Avatars")
-                }
+                featuredSection
                 
             }
             .navigationTitle("Explore")
+        }
+    }
+    
+    private var featuredSection: some View {
+        Section {
+            CarouselView(
+                items: featuredAvatars,
+                content: { avatar in
+                    HeroCellView(
+                        title: avatar.name,
+                        subtitle: avatar.characterDescription,
+                        imageName: avatar.profileImageName
+                    )
+                }
+            )
+            .removeListRowFormatting()
+            
+        } header: {
+            Text("Featured Avatars")
         }
     }
 }

@@ -9,13 +9,12 @@ import SwiftUI
 
 struct ExploreView: View {
     
-    let avatar = AvatarModel.mock
-    var avatars = AvatarModel.mocks
+    @State private var featuredAvatars: [AvatarModel] = AvatarModel.mocks
     
     var body: some View {
         NavigationStack {
             CarouselView(
-                items: avatars,
+                items: featuredAvatars,
                 content: { item in
                     HeroCellView(
                         title: item.name,

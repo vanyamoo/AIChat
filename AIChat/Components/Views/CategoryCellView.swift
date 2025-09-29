@@ -8,11 +8,34 @@
 import SwiftUI
 
 struct CategoryCellView: View {
+    
+    var title: String = "Aliens"
+    var imageName: String = Constants.randomImage
+    var font: Font = .title2
+    var cornerRadius: CGFloat = 16
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ImageLoaderView(urlString: imageName)
+            .aspectRatio(1, contentMode: .fit)
+            .overlay(alignment: .bottomLeading) {
+                Text(title)
+                    .font(font)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .padding(16)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .addingGradientBackgroundForText()
+            }
+            .cornerRadius(cornerRadius)
     }
 }
 
 #Preview {
-    CategoryCellView()
+    VStack {
+        CategoryCellView()
+            .frame(width: 150)
+        
+        CategoryCellView()
+            .frame(width: 300)
+    }
 }

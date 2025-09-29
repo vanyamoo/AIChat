@@ -13,17 +13,27 @@ struct ExploreView: View {
     
     var body: some View {
         NavigationStack {
-            CarouselView(
-                items: featuredAvatars,
-                content: { item in
-                    HeroCellView(
-                        title: item.name,
-                        subtitle: item.characterDescription,
-                        imageName: item.profileImageName
+            List {
+                
+                Section {
+                    CarouselView(
+                        items: featuredAvatars,
+                        content: { avatar in
+                            HeroCellView(
+                                title: avatar.name,
+                                subtitle: avatar.characterDescription,
+                                imageName: avatar.profileImageName
+                            )
+                        }
                     )
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
+                    
+                } header: {
+                    Text("Featured Avatars")
                 }
-            )
-            .frame(height: 200)
+                
+            }
             .navigationTitle("Explore")
         }
     }

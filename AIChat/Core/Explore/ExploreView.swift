@@ -11,6 +11,7 @@ struct ExploreView: View {
     
     @State private var featuredAvatars: [AvatarModel] = AvatarModel.mocks
     @State private var categories: [CharacterOption] = CharacterOption.allCases
+    @State private var popularAvatars: [AvatarModel] = AvatarModel.mocks
     
     var body: some View {
         NavigationStack {
@@ -19,6 +20,8 @@ struct ExploreView: View {
                 featuredSection
                 
                 categorySection
+                
+                popularSection
                 
             }
             .navigationTitle("Explore")
@@ -66,6 +69,22 @@ struct ExploreView: View {
             
         } header: {
             Text("Categories")
+        }
+    }
+    
+    private var popularSection: some View {
+        Section {
+            ForEach(popularAvatars, id: \.self) { avatar in
+                CustomListCellView(
+                    imageName: Constants.randomImage,
+                    title: avatar.name,
+                    subtitle: avatar.characterDescription
+                )
+            }
+            .removeListRowFormatting()
+            
+        } header: {
+            Text("Popular")
         }
     }
 }

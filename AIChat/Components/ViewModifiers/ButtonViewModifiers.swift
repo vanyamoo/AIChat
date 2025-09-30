@@ -27,9 +27,36 @@ struct PressableButtonStyle: ButtonStyle {
     }
 }
 
+enum ButtonStyleOption {
+    case highlight
+    case press
+    case plain
+}
+
 extension View {
     
-    func hightlightButton(action: @escaping () -> Void) -> some View {
+    @ViewBuilder
+    func anyButton(_ option: ButtonStyleOption = .plain, action: @escaping () -> Void) -> some View {
+        switch option {
+        case .press:
+            self.pressableButton(action: action)
+        case .highlight:
+            self.hightlightButton(action: action)
+        case .plain:
+            self.plainButton(action: action)
+        }
+    }
+    
+    private func plainButton(action: @escaping () -> Void) -> some View {
+        Button {
+            action()
+        } label: {
+            self
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private func hightlightButton(action: @escaping () -> Void) -> some View {
         Button {
             action()
         } label: {
@@ -38,7 +65,7 @@ extension View {
         .buttonStyle(HighlightButtonStyle())
     }
 
-    func pressableButton(action: @escaping () -> Void) -> some View {
+    private func pressableButton(action: @escaping () -> Void) -> some View {
         Button {
             action()
         } label: {
@@ -54,16 +81,23 @@ extension View {
             .padding()
             .frame(maxWidth: .infinity)
             .tappableBackground()
-            .hightlightButton {
+            .anyButton(.highlight, action: {
                 // action
-            }
+            })
             .padding()
         
         Text("Hello, world!")
             .callToActionButton()
-            .pressableButton {
+            .anyButton(.press, action: {
                 // action
-            }
+            })
+            .padding()
+        
+        Text("Hello, world!")
+            .callToActionButton()
+            .anyButton(action: {
+                // action
+            })
             .padding()
     }
 }

@@ -18,7 +18,17 @@ struct HighlightButtonStyle: ButtonStyle {
     }
 }
 
+struct PressableButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
+            .animation(.smooth, value: configuration.isPressed)
+    }
+}
+
 extension View {
+    
     func hightlightButton(action: @escaping () -> Void) -> some View {
         Button {
             action()
@@ -26,6 +36,15 @@ extension View {
             self
         }
         .buttonStyle(HighlightButtonStyle())
+    }
+
+    func pressableButton(action: @escaping () -> Void) -> some View {
+        Button {
+            action()
+        } label: {
+            self
+        }
+        .buttonStyle(PressableButtonStyle())
     }
 }
 
@@ -40,16 +59,11 @@ extension View {
             }
             .padding()
         
-        Button(
-            action: {
-                //
-            },
-            label: {
-                Text("Hello, world!")
-                    .callToActionButton()
+        Text("Hello, world!")
+            .callToActionButton()
+            .pressableButton {
+                // action
             }
-        )
-        .buttonStyle(.plain)
-        .padding()
+            .padding()
     }
 }

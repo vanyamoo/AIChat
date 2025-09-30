@@ -7,12 +7,49 @@
 
 import SwiftUI
 
-struct ButtonViewModifiers: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct HighlightButtonStyle: ButtonStyle {
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .overlay {
+                configuration.isPressed ? Color.accent.opacity(0.4) : Color.accent.opacity(0)
+            }
+            .animation(.smooth, value: configuration.isPressed)
+    }
+}
+
+extension View {
+    func hightlightButton(action: @escaping () -> Void) -> some View {
+        Button {
+            action()
+        } label: {
+            self
+        }
+        .buttonStyle(HighlightButtonStyle())
     }
 }
 
 #Preview {
-    ButtonViewModifiers()
+    VStack {
+        Text("Hello, world!")
+            .padding()
+            .frame(maxWidth: .infinity)
+            .tappableBackground()
+            .hightlightButton {
+                // action
+            }
+            .padding()
+        
+        Button(
+            action: {
+                //
+            },
+            label: {
+                Text("Hello, world!")
+                    .callToActionButton()
+            }
+        )
+        .buttonStyle(.plain)
+        .padding()
+    }
 }

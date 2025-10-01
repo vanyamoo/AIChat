@@ -38,6 +38,9 @@ struct ExploreView: View {
                         subtitle: avatar.characterDescription,
                         imageName: avatar.profileImageName
                     )
+                    .anyButton(.plain) {
+                        
+                    }
                 }
             )
             .removeListRowFormatting()
@@ -57,6 +60,9 @@ struct ExploreView: View {
                                 title: category.rawValue.capitalized,
                                 imageName: Constants.randomImage
                             )
+                            .anyButton(.plain) {
+                                
+                            }
                         }
                     }
                 }
@@ -80,9 +86,11 @@ struct ExploreView: View {
                     title: avatar.name,
                     subtitle: avatar.characterDescription
                 )
+                .anyButton(.highlight) {
+                    
+                }
+                .removeListRowFormatting()
             }
-            .removeListRowFormatting()
-            
         } header: {
             Text("Popular")
         }

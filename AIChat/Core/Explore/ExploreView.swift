@@ -38,7 +38,7 @@ struct ExploreView: View {
                         subtitle: avatar.characterDescription,
                         imageName: avatar.profileImageName
                     )
-                    .anyButton(.plain) {
+                    .anyButton() {
                         
                     }
                 }
@@ -60,7 +60,7 @@ struct ExploreView: View {
                                 title: category.rawValue.capitalized,
                                 imageName: Constants.randomImage
                             )
-                            .anyButton(.plain) {
+                            .anyButton() {
                                 
                             }
                         }

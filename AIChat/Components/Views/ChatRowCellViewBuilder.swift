@@ -18,19 +18,41 @@ struct ChatRowCellViewBuilder: View {
     @State private var avatar: AvatarModel?
     @State private var lastChatMessage: ChatMessageModel?
     
+    @State private var didloadAvatar: Bool = false
+    @State private var didLoadChatMessage: Bool = false
+    
+    private var isLoading: Bool {
+        didloadAvatar == false || didLoadChatMessage == false
+    }
+    
+    private var subheadline: String? {
+        if isLoading {
+            return "xxxx xxxx xxxx xx xxxxxxx"
+        }
+        
+        if avatar == nil && lastChatMessage == nil {
+            return "Error"
+        }
+        
+        return lastChatMessage?.content
+    }
+    
     var body: some View {
         ChatRowCellView(
             imageName: avatar?.profileImageName,
-            headline: avatar?.name,
-            subheadline: lastChatMessage?.authorId,
-            hasNewChat: hasNewChat
+            headline: isLoading ? "xxxx xxxx" : avatar?.name,
+            subheadline: subheadline,
+            hasNewChat: isLoading ? false : hasNewChat
         )
+        .redacted(reason: isLoading ? .placeholder : [])
         .task {
             // run a function to get the avatar
             avatar = await getAvatar()
+            didloadAvatar = true
             
             // run a function to fetch the last chat message
             lastChatMessage = await getLastChatMessage()
+            didLoadChatMessage = true
         }
     }
     
@@ -42,9 +64,19 @@ struct ChatRowCellViewBuilder: View {
 }
 
 #Preview {
-    ChatRowCellViewBuilder(chat: .mock, getAvatar: {
-        .mock
-    }, getLastChatMessage: {
-        .mock
-    })
+    VStack {
+        ChatRowCellViewBuilder(chat: .mock, getAvatar: {
+            try? await Task.sleep(for: .seconds(5))
+            return .mock
+        }, getLastChatMessage: {
+            try? await Task.sleep(for: .seconds(5))
+            return .mock
+        })
+        
+        ChatRowCellViewBuilder(chat: .mock, getAvatar: {
+            .mock
+        }, getLastChatMessage: {
+            .mock
+        })
+    }
 }

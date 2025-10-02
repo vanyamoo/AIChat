@@ -15,7 +15,7 @@ struct ChatsView: View {
         NavigationStack {
             List {
                 ForEach(chats) { chat in
-                    Text(chat.id)
+                    ChatRowCellView()
                 }
             }
             .navigationTitle("Chats")

@@ -15,7 +15,7 @@ struct ChatsView: View {
         NavigationStack {
             List {
                 ForEach(chats) { chat in
-                    ChatRowCellView()
+                    ChatRowCellViewBuilder(getAvatar: { .mock }, getLastChatMessage: { .mock })
                 }
             }
             .navigationTitle("Chats")

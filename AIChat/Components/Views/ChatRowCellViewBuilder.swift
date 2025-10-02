@@ -37,6 +37,12 @@ struct ChatRowCellViewBuilder: View {
         return lastChatMessage?.content
     }
     
+    private var hasNewChat: Bool {
+        guard let lastChatMessage, let currentUserId else { return false }
+        
+        return lastChatMessage.hasBeenSeenBy(userId: currentUserId)
+    }
+    
     var body: some View {
         ChatRowCellView(
             imageName: avatar?.profileImageName,
@@ -54,12 +60,6 @@ struct ChatRowCellViewBuilder: View {
             lastChatMessage = await getLastChatMessage()
             didLoadChatMessage = true
         }
-    }
-    
-    private var hasNewChat: Bool {
-        guard let lastChatMessage, let currentUserId else { return false }
-        
-        return lastChatMessage.hasBeenSeenBy(userId: currentUserId)
     }
 }
 

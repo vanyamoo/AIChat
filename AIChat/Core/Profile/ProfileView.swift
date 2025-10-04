@@ -82,12 +82,12 @@ struct ProfileView: View {
     }
     
     private var settingsButton: some View {
-        Button {
-            onSettingsButtonPressed()
-        } label: {
-            Image(systemName: "gear")
-                .font(.headline)
-        }
+        Image(systemName: "gear")
+            .font(.headline)
+            .foregroundStyle(.accent)
+            .anyButton {
+                onSettingsButtonPressed()
+            }
     }
     
     private func onSettingsButtonPressed() {

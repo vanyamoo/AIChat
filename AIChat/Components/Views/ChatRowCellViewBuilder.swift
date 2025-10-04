@@ -11,7 +11,6 @@ struct ChatRowCellViewBuilder: View {
     
     var currentUserId: String? = ""
     var chat: ChatModel = .mock
-    var chatMessage: ChatMessageModel = .mock
     var getAvatar: () async -> AvatarModel?
     var getLastChatMessage: () async -> ChatMessageModel?
     

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct UserModel {
     let userId: String
@@ -23,6 +24,14 @@ struct UserModel {
         self.dateCreated = dateCreated
         self.didCompleteOnboarding = didCompleteOnboarding
         self.profileColorHex = profileColorHex
+    }
+    
+    var profileColorCalculated: Color {
+        guard let profileColorHex else {   // profileColorHex.map { Color(hex: $0) } ?? .accent // more idiomatic Swift
+            return .accent
+        }
+        
+        return Color(hex: profileColorHex)
     }
     
     static var mock: Self {

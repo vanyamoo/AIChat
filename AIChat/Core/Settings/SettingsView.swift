@@ -25,7 +25,7 @@ struct SettingsView: View {
     
     @State private var isPremium: Bool = false
     @State private var isAnonymousUser: Bool = true
-    @State private var showCreateAccountView: Bool = true
+    @State private var showCreateAccountView: Bool = false
     
     var body: some View {
         NavigationStack {

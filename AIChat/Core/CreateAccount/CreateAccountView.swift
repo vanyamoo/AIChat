@@ -22,6 +22,16 @@ struct CreateAccountView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
+                SignInWithAppleButtonView(
+                    type: .signIn,
+                    style: .black,
+                    cornerRadius: 10
+                )
+                .frame(height: 55)
+                .anyButton(.press) {
+                    
+                }
+                
                 Spacer()
             }
             .padding(16)

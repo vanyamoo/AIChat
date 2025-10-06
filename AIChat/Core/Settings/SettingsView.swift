@@ -39,7 +39,7 @@ struct SettingsView: View {
             .navigationTitle("Settings")
         }
         .sheet(isPresented: $showCreateAccountView) {
-            // CreateAccountView()
+            CreateAccountView()
         }
     }
     

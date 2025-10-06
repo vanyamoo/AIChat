@@ -40,6 +40,7 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $showCreateAccountView) {
             CreateAccountView()
+                .presentationDetents([.medium])
         }
     }
     

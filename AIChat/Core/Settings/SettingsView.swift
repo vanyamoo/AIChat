@@ -7,6 +7,17 @@
 
 import SwiftUI
 
+fileprivate extension View {
+    func rowFormatting() -> some View {
+        self
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(Color(.systemBackground))
+    }
+    
+}
+
 struct SettingsView: View {
     
     @Environment(\.dismiss) private var dismiss

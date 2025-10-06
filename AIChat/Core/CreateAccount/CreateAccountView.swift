@@ -34,6 +34,9 @@ struct CreateAccountView: View {
             
             Spacer()
         }
+        .padding(16)
+        .padding(.top, 40)
+    }
 }
 
 #Preview {

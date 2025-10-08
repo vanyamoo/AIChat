@@ -63,6 +63,7 @@ struct ChatView: View {
             .frame(maxWidth: .infinity)
             .padding(8)
         }
+        .defaultScrollAnchor(.bottom)
         .scrollPosition(id: $scrollPosition, anchor: .center)
         .animation(.default, value: chatMessages.count)
         .animation(.default, value: scrollPosition)

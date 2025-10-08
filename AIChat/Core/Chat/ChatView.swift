@@ -42,6 +42,8 @@ struct ChatView: View {
             .padding(8)
         }
         .scrollPosition(id: $scrollPosition, anchor: .center)
+        .animation(.default, value: chatMessages.count)
+        .animation(.default, value: scrollPosition)
     }
     
     private var textFieldSection: some View {

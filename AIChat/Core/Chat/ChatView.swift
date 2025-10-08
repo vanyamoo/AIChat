@@ -16,6 +16,8 @@ struct ChatView: View {
     @State private var textFieldText: String = ""
     @State private var scrollPosition: String?
     
+    @State private var showChatSettings: Bool = false
+    
     var body: some View {
         VStack(spacing: 0) {
             scrollViewSection
@@ -23,6 +25,26 @@ struct ChatView: View {
         }
         .navigationTitle(avatar?.name ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Image(systemName: "ellipsis")
+                    .padding(8)
+                    .anyButton {
+                        onChatSettingsPressed()
+                    }
+            }
+        }
+        .confirmationDialog("", isPresented: $showChatSettings) {
+            Button("Report User / Chat", role: .destructive) {
+                
+            }
+            Button("Delete Chat", role: .destructive) {
+                
+            }
+        } message: {
+            Text("What would you like to do?")
+        }
+        
     }
     
     private var scrollViewSection: some View {
@@ -49,7 +71,7 @@ struct ChatView: View {
     private var textFieldSection: some View {
         TextField("Say something...", text: $textFieldText)
             .keyboardType(.alphabet)
-                        .autocorrectionDisabled()
+            .autocorrectionDisabled()
             .padding(12)
             .padding(.trailing, 60)
             .overlay(
@@ -65,7 +87,7 @@ struct ChatView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 100)
                         .fill(Color(.systemBackground))
-                              
+                    
                     RoundedRectangle(cornerRadius: 100)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 }
@@ -94,6 +116,10 @@ struct ChatView: View {
         scrollPosition = message.id
         
         textFieldText = ""
+    }
+    
+    private func onChatSettingsPressed() {
+        showChatSettings = true
     }
 }
 

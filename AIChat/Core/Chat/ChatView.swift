@@ -62,11 +62,14 @@ struct ChatView: View {
             }
             .frame(maxWidth: .infinity)
             .padding(8)
+            .rotationEffect(.degrees(180))
         }
-        .defaultScrollAnchor(.bottom)
+        .rotationEffect(.degrees(180))
+        //.defaultScrollAnchor(.bottom)
         .scrollPosition(id: $scrollPosition, anchor: .center)
         .animation(.default, value: chatMessages.count)
         .animation(.default, value: scrollPosition)
+        
     }
     
     private var textFieldSection: some View {

@@ -18,28 +18,30 @@ struct ChatView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
-                LazyVStack(spacing: 24) {
-                    ForEach(chatMessages) { message in
-                        let isCurrentUser = message.authorId == currentUser?.userId
-                        ChatBubbleViewBuilder(
-                            message: message,
-                            isCurrentUser: isCurrentUser,
-                            imageName: isCurrentUser ? nil : avatar?.profileImageName
-                        )
-                        .id(message.id)
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(8)
-            }
-            .scrollPosition(id: $scrollPosition, anchor: .center)
-            
+            scrollViewSection
             textFieldSection
-                
         }
         .navigationTitle(avatar?.name ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private var scrollViewSection: some View {
+        ScrollView {
+            LazyVStack(spacing: 24) {
+                ForEach(chatMessages) { message in
+                    let isCurrentUser = message.authorId == currentUser?.userId
+                    ChatBubbleViewBuilder(
+                        message: message,
+                        isCurrentUser: isCurrentUser,
+                        imageName: isCurrentUser ? nil : avatar?.profileImageName
+                    )
+                    .id(message.id)
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(8)
+        }
+        .scrollPosition(id: $scrollPosition, anchor: .center)
     }
     
     private var textFieldSection: some View {

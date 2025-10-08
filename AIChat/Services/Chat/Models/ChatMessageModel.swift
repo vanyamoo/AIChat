@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatMessageModel: Codable {
+struct ChatMessageModel: Identifiable {
     let id: String
     let chatId: String // the parent chatId that will link to the ChatModel
     let authorId: String? // whoever wrote the message

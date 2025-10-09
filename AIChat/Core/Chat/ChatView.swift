@@ -48,16 +48,34 @@ struct AnyAppAlert: Sendable {
     }
 }
 
+enum AlertType {
+    case alert
+    case confirmationDialog
+}
+
 extension View {
-    func showCustomAlert(alert: Binding<AnyAppAlert?>) -> some View {
-        self
-            .alert(alert.wrappedValue?.title ?? "", isPresented: Binding(ifNotNil: alert)) {
-                alert.wrappedValue?.buttons?()
+    @ViewBuilder
+    func showCustomAlert(type: AlertType = .alert, alert: Binding<AnyAppAlert?>) -> some View {
+        switch type {
+        case .alert:
+            self
+                .alert(alert.wrappedValue?.title ?? "", isPresented: Binding(ifNotNil: alert)) {
+                    alert.wrappedValue?.buttons?()
+                }
+            message: {
+                if let subtitle = alert.wrappedValue?.subtitle {
+                    Text(subtitle)
+                }
             }
-        message: {
-            if let subtitle = alert.wrappedValue?.subtitle {
-                Text(subtitle)
-            }
+        case .confirmationDialog:
+            self
+                .confirmationDialog(alert.wrappedValue?.title ?? "", isPresented: Binding(ifNotNil: alert)) {
+                    alert.wrappedValue?.buttons?()
+                } message: {
+                    if let subtitle = alert.wrappedValue?.subtitle {
+                        Text(subtitle)
+                    }
+                }
         }
     }
 }
@@ -71,9 +89,8 @@ struct ChatView: View {
     @State private var textFieldText: String = ""
     @State private var scrollPosition: String?
     
-    @State private var showChatSettings: Bool = false
-    
     @State private var alert: AnyAppAlert?
+    @State private var showChatSettings: AnyAppAlert?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -91,22 +108,8 @@ struct ChatView: View {
                     }
             }
         }
-        .confirmationDialog("", isPresented: $showChatSettings) {
-            Button("Report User / Chat", role: .destructive) {
-                
-            }
-            Button("Delete Chat", role: .destructive) {
-                
-            }
-        } message: {
-            Text("What would you like to do?")
-        }
+        .showCustomAlert(type: .confirmationDialog, alert: $showChatSettings)
         .showCustomAlert(alert: $alert)
-    }
-    
-    enum AlertType {
-        case alert
-        case confirmationDialog
     }
     
     private var scrollViewSection: some View {
@@ -190,7 +193,22 @@ struct ChatView: View {
     }
     
     private func onChatSettingsPressed() {
-        showChatSettings = true
+        showChatSettings = AnyAppAlert(
+            title: "",
+            subtitle: "What would you like to do?",
+            buttons: {
+                AnyView(
+                    Group {
+                        Button("Report User / Chat", role: .destructive) {
+                            
+                        }
+                        Button("Delete Chat", role: .destructive) {
+                            
+                        }
+                    }
+                )
+            }
+        )
     }
 }
 

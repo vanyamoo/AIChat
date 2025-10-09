@@ -97,6 +97,9 @@ struct ChatView: View {
             }
         }
         
+        init(error: Error) {
+            self.init(title: "Error", subtitle: error.localizedDescription, buttons: nil)
+        }
     }
     
     private var scrollViewSection: some View {
@@ -175,7 +178,7 @@ struct ChatView: View {
             
             textFieldText = ""
         } catch {
-            alert = AnyAppAlert(title: error.localizedDescription)
+            alert = AnyAppAlert(error: error)
         }
     }
     

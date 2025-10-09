@@ -22,6 +22,46 @@ extension Binding where Value == Bool {
     }
 }
 
+struct AnyAppAlert: Sendable {
+    var title: String
+    var subtitle: String?
+    var buttons: (@Sendable () -> AnyView)?
+    
+    init(
+        title: String,
+        subtitle: String? = nil,
+        buttons: (@Sendable () -> AnyView)? = nil
+    ) {
+        self.title = title
+        self.subtitle = subtitle
+        self.buttons = buttons ?? {
+            AnyView(
+                Button("OK") {
+                    
+                }
+            )
+        }
+    }
+    
+    init(error: Error) {
+        self.init(title: "Error", subtitle: error.localizedDescription, buttons: nil)
+    }
+}
+
+extension View {
+    func showCustomAlert(alert: Binding<AnyAppAlert?>) -> some View {
+        self
+            .alert(alert.wrappedValue?.title ?? "", isPresented: Binding(ifNotNil: alert)) {
+                alert.wrappedValue?.buttons?()
+            }
+        message: {
+            if let subtitle = alert.wrappedValue?.subtitle {
+                Text(subtitle)
+            }
+        }
+    }
+}
+
 struct ChatView: View {
     
     @State private var chatMessages: [ChatMessageModel] = ChatMessageModel.mocks
@@ -61,45 +101,12 @@ struct ChatView: View {
         } message: {
             Text("What would you like to do?")
         }
-        .alert(alert?.title ?? "", isPresented: Binding(ifNotNil: $alert)) {
-            alert?.buttons?()
-        }
-        message: {
-            if let subtitle = alert?.subtitle {
-                Text(subtitle)
-            }
-        }
+        .showCustomAlert(alert: $alert)
     }
     
     enum AlertType {
         case alert
         case confirmationDialog
-    }
-    
-    struct AnyAppAlert: Sendable {
-        var title: String
-        var subtitle: String?
-        var buttons: (@Sendable () -> AnyView)?
-        
-        init(
-            title: String,
-            subtitle: String? = nil,
-            buttons: (@Sendable () -> AnyView)? = nil
-        ) {
-            self.title = title
-            self.subtitle = subtitle
-            self.buttons = buttons ?? {
-                AnyView(
-                    Button("OK") {
-                        
-                    }
-                )
-            }
-        }
-        
-        init(error: Error) {
-            self.init(title: "Error", subtitle: error.localizedDescription, buttons: nil)
-        }
     }
     
     private var scrollViewSection: some View {

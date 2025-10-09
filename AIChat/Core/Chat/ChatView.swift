@@ -18,8 +18,7 @@ struct ChatView: View {
     
     @State private var showChatSettings: Bool = false
     
-    @State private var showAlert: Bool = false
-    @State private var alertTitle: String = ""
+    @State private var alertTitle: String?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -37,15 +36,6 @@ struct ChatView: View {
                     }
             }
         }
-        .alert(alertTitle, isPresented: $showAlert) {
-            Button("OK") {
-                
-            }
-        }
-        message: {
-            Text("")
-        }
-        
         .confirmationDialog("", isPresented: $showChatSettings) {
             Button("Report User / Chat", role: .destructive) {
                 
@@ -56,7 +46,20 @@ struct ChatView: View {
         } message: {
             Text("What would you like to do?")
         }
-        
+        .alert(alertTitle ?? "", isPresented: Binding(get: {
+            alertTitle != nil
+        }, set: { newValue in
+            if !newValue {
+                alertTitle = nil
+            }
+        })) {
+            Button("OK") {
+                
+            }
+        }
+        message: {
+            Text("")
+        }
     }
     
     private var scrollViewSection: some View {
@@ -77,7 +80,7 @@ struct ChatView: View {
             .rotationEffect(.degrees(180))
         }
         .rotationEffect(.degrees(180))
-        //.defaultScrollAnchor(.bottom)
+        // .defaultScrollAnchor(.bottom)
         .scrollPosition(id: $scrollPosition, anchor: .center)
         .animation(.default, value: chatMessages.count)
         .animation(.default, value: scrollPosition)
@@ -135,7 +138,6 @@ struct ChatView: View {
             
             textFieldText = ""
         } catch {
-            showAlert = true
             alertTitle = error.localizedDescription
         }
     }

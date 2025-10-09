@@ -33,7 +33,7 @@ struct ChatView: View {
     
     @State private var showChatSettings: Bool = false
     
-    @State private var alertTitle: String?
+    @State private var alert: AnyAppAlert?
     
     var body: some View {
         VStack(spacing: 0) {
@@ -61,20 +61,42 @@ struct ChatView: View {
         } message: {
             Text("What would you like to do?")
         }
-        .alert(alertTitle ?? "", isPresented: Binding(get: {
-            alertTitle != nil
-        }, set: { newValue in
-            if !newValue {
-                alertTitle = nil
-            }
-        })) {
-            Button("OK") {
-                
-            }
+        .alert(alert?.title ?? "", isPresented: Binding(ifNotNil: $alert)) {
+            alert?.buttons?()
         }
         message: {
-            Text("")
+            if let subtitle = alert?.subtitle {
+                Text(subtitle)
+            }
         }
+    }
+    
+    enum AlertType {
+        case alert
+        case confirmationDialog
+    }
+    
+    struct AnyAppAlert: Sendable {
+        var title: String
+        var subtitle: String?
+        var buttons: (@Sendable () -> AnyView)?
+        
+        init(
+            title: String,
+            subtitle: String? = nil,
+            buttons: (@Sendable () -> AnyView)? = nil
+        ) {
+            self.title = title
+            self.subtitle = subtitle
+            self.buttons = buttons ?? {
+                AnyView(
+                    Button("OK") {
+                        
+                    }
+                )
+            }
+        }
+        
     }
     
     private var scrollViewSection: some View {
@@ -153,7 +175,7 @@ struct ChatView: View {
             
             textFieldText = ""
         } catch {
-            alertTitle = error.localizedDescription
+            alert = AnyAppAlert(title: error.localizedDescription)
         }
     }
     

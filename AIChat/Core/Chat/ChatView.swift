@@ -18,6 +18,9 @@ struct ChatView: View {
     
     @State private var showChatSettings: Bool = false
     
+    @State private var showAlert: Bool = false
+    @State private var alertTitle: String = ""
+    
     var body: some View {
         VStack(spacing: 0) {
             scrollViewSection
@@ -34,6 +37,15 @@ struct ChatView: View {
                     }
             }
         }
+        .alert(alertTitle, isPresented: $showAlert) {
+            Button("OK") {
+                
+            }
+        }
+        message: {
+            Text("")
+        }
+        
         .confirmationDialog("", isPresented: $showChatSettings) {
             Button("Report User / Chat", role: .destructive) {
                 
@@ -105,21 +117,27 @@ struct ChatView: View {
         guard let currentUser else { return }
         
         let content = textFieldText
-        
-        let message = ChatMessageModel(
-            id: UUID().uuidString,
-            chatId: UUID().uuidString,
-            authorId: currentUser.userId ,
-            content: content,
-            seenByIds: nil,
-            dateCreated: .now
-        )
-        
-        chatMessages.append(message)
-        
-        scrollPosition = message.id
-        
-        textFieldText = ""
+        do {
+            try TextValidationHelper.checkIfTextIsValid(content)
+            
+            let message = ChatMessageModel(
+                id: UUID().uuidString,
+                chatId: UUID().uuidString,
+                authorId: currentUser.userId,
+                content: content,
+                seenByIds: nil,
+                dateCreated: .now
+            )
+            
+            chatMessages.append(message)
+            
+            scrollPosition = message.id
+            
+            textFieldText = ""
+        } catch {
+            showAlert = true
+            alertTitle = error.localizedDescription
+        }
     }
     
     private func onChatSettingsPressed() {

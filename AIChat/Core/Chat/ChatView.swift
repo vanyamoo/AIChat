@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+extension Binding where Value == Bool {
+    init(alertTitle: Binding<String?>) {
+        self.init(
+            get: {
+                alertTitle.wrappedValue != nil
+            },
+            set: { newValue in
+                if !newValue {
+                    alertTitle.wrappedValue = nil
+                }
+            }
+        )
+    }
+}
+
 struct ChatView: View {
     
     @State private var chatMessages: [ChatMessageModel] = ChatMessageModel.mocks

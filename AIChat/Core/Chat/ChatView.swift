@@ -8,14 +8,14 @@
 import SwiftUI
 
 extension Binding where Value == Bool {
-    init(alertTitle: Binding<String?>) {
+    init<T: Sendable>(ifNotNil value: Binding<T?>) {
         self.init(
             get: {
-                alertTitle.wrappedValue != nil
+                value.wrappedValue != nil
             },
             set: { newValue in
                 if !newValue {
-                    alertTitle.wrappedValue = nil
+                    value.wrappedValue = nil
                 }
             }
         )

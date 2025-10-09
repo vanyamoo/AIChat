@@ -12,6 +12,7 @@ struct ImageLoaderView: View {
     
     var urlString: String = Constants.randomImage
     var resizingMode: ContentMode = .fill
+    var forceTransitionAnimation: Bool = false
     
     var body: some View {
         Rectangle()
@@ -24,10 +25,18 @@ struct ImageLoaderView: View {
                     .allowsHitTesting(false)
             )
             .clipped()
+            .clipped()
+            .ifSatisfiedCondition(forceTransitionAnimation) { content in
+                content
+                    .drawingGroup()
+            }
     }
 }
 
 #Preview {
     ImageLoaderView()
         .frame(width: 100, height: 200)
+        .anyButton(.highlight) {
+            
+        }
 }

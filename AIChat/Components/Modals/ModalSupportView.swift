@@ -21,9 +21,12 @@ struct ModalSupportView<Content: View>: View {
                     .onTapGesture {
                         showModal = false
                     }
+                    .zIndex(1)
+                
                 content
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .ignoresSafeArea()
+                    .zIndex(2)
             }
         }
         .zIndex(999)

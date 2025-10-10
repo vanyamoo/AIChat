@@ -13,14 +13,14 @@ enum NavigationPathOption: Hashable {
 }
 
 extension View {
-    func navigationDestinationForCoreModule() -> some View {
+    func navigationDestinationForCoreModule(path: Binding<[NavigationPathOption]>) -> some View {
         self
             .navigationDestination(for: NavigationPathOption.self) { newValue in
                 switch newValue {
                 case .chat(avatarId: let avatarId):
                     ChatView(avatarId: avatarId)
                 case .category(category: let category, imageName: let imageName):
-                    CategoryListView(category: category, imageName: imageName)
+                    CategoryListView(path: path, category: category, imageName: imageName)
                 }
             }
     }
@@ -46,7 +46,7 @@ struct ExploreView: View {
                 
             }
             .navigationTitle("Explore")
-            .navigationDestinationForCoreModule()
+            .navigationDestinationForCoreModule(path: $path)
         }
     }
     

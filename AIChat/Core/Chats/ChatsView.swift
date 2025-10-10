@@ -10,12 +10,16 @@ import SwiftUI
 struct ChatsView: View {
     
     @State private var chats: [ChatModel] = ChatModel.mocks
+    @State private var recentAvatars: [AvatarModel] = AvatarModel.mocks
     
     @State private var path: [NavigationPathOption] = []
     
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                if !recentAvatars.isEmpty {
+                    recentsSection
+                }
                 chatsSection
             }
             .navigationTitle("Chats")
@@ -58,8 +62,43 @@ struct ChatsView: View {
         }
     }
     
+    private var recentsSection: some View {
+        Section {
+            ScrollView(.horizontal) {
+                LazyHStack(spacing: 8) {
+                    ForEach(recentAvatars, id: \.self) { avatar in
+                        if let imageName = avatar.profileImageName {
+                            VStack(spacing: 8) {
+                                ImageLoaderView(urlString: imageName)
+                                    .aspectRatio(1, contentMode: .fit)
+                                    .clipShape(Circle())
+                                
+                                Text(avatar.name ?? "")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .anyButton {
+                                onAvatarPressed(avatar: avatar)
+                            }
+                        }
+                    }
+                }
+                .padding(.top, 12)
+            }
+            .frame(height: 120)
+            .scrollIndicators(.hidden)
+            .removeListRowFormatting()
+        } header: {
+            Text("Recents")
+        }
+    }
+    
     private func onChatPressed(_ chat: ChatModel) {
         path.append(.chat(avatarId: chat.avatarId))
+    }
+    
+    private func onAvatarPressed(avatar: AvatarModel) {
+        path.append(.chat(avatarId: avatar.avatarId))
     }
 }
 

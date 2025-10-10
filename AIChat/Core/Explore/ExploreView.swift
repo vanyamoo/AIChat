@@ -13,8 +13,10 @@ struct ExploreView: View {
     @State private var categories: [CharacterOption] = CharacterOption.allCases
     @State private var popularAvatars: [AvatarModel] = AvatarModel.mocks
     
+    @State private var path: [String] = []
+    
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             List {
                 
                 featuredSection
@@ -25,6 +27,9 @@ struct ExploreView: View {
                 
             }
             .navigationTitle("Explore")
+            .navigationDestination(for: String.self) { newValue in
+                ChatView(avatarId: newValue)
+            }
         }
     }
     
@@ -38,8 +43,8 @@ struct ExploreView: View {
                         subtitle: avatar.characterDescription,
                         imageName: avatar.profileImageName
                     )
-                    .anyButton() {
-                        
+                    .anyButton {
+                        onAvatarPressed(avatar: avatar)
                     }
                 }
             )
@@ -48,6 +53,10 @@ struct ExploreView: View {
         } header: {
             Text("Featured")
         }
+    }
+    
+    private func onAvatarPressed(avatar: AvatarModel) {
+        path.append(avatar.avatarId)
     }
     
     private var categorySection: some View {
@@ -60,7 +69,7 @@ struct ExploreView: View {
                                 title: category.plural.capitalized,
                                 imageName: Constants.randomImage
                             )
-                            .anyButton() {
+                            .anyButton {
                                 
                             }
                         }

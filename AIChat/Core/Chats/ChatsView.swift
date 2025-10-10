@@ -16,6 +16,24 @@ struct ChatsView: View {
     var body: some View {
         NavigationStack(path: $path) {
             List {
+                chatsSection
+            }
+            .navigationTitle("Chats")
+            .navigationDestinationForCoreModule(path: $path)
+        }
+    }
+    
+    private var chatsSection: some View {
+        Section {
+            if chats.isEmpty {
+                Text("Your chats will appear here!")
+                    .foregroundStyle(.secondary)
+                    .font(.title3)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .padding(40)
+                    .removeListRowFormatting()
+            } else {
                 ForEach(chats) { chat in
                     ChatRowCellViewBuilder(
                         currentUserId: nil, // Add cuid
@@ -35,8 +53,8 @@ struct ChatsView: View {
                     .removeListRowFormatting()
                 }
             }
-            .navigationTitle("Chats")
-            .navigationDestinationForCoreModule(path: $path)
+        } header: {
+            Text("Chats")
         }
     }
     

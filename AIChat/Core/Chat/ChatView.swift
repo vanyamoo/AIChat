@@ -41,17 +41,7 @@ struct ChatView: View {
         .showCustomAlert(alert: $alert)
         .showModal($showProfileModal) {
             if let avatar {
-                ProfileModalView(
-                    imageName: avatar.profileImageName,
-                    title: avatar.name ?? "",
-                    subtitle: avatar.characterOption?.rawValue.capitalized,
-                    headline: avatar.characterDescription,
-                    onXMarkPressed: {
-                        showProfileModal = false
-                    }
-                )
-                .padding(40)
-                .transition(.slide)
+                profileModal(avatar: avatar)
             }
         }
     }
@@ -109,6 +99,20 @@ struct ChatView: View {
             .padding(.vertical, 6)
             .padding(.horizontal, 20)
             .background(Color(.secondarySystemBackground))
+    }
+    
+    private func profileModal(avatar: AvatarModel) -> some View {
+        ProfileModalView(
+            imageName: avatar.profileImageName,
+            title: avatar.name ?? "",
+            subtitle: avatar.characterOption?.rawValue.capitalized,
+            headline: avatar.characterDescription,
+            onXMarkPressed: {
+                showProfileModal = false
+            }
+        )
+        .padding(40)
+        .transition(.slide)
     }
     
     private func onSendMessagePressed() {

@@ -10,7 +10,7 @@ import SwiftUI
 struct ModalSupportView<Content: View>: View {
     
     @Binding var showModal: Bool
-    var content: Content
+    @ViewBuilder var content: Content
     
     var body: some View {
         ZStack {
@@ -31,6 +31,17 @@ struct ModalSupportView<Content: View>: View {
     }
 }
 
+extension View {
+    func showModal(_ showModal: Binding<Bool>, @ViewBuilder content: () -> some View) -> some View {
+        self
+            .overlay(
+                ModalSupportView(showModal: showModal) {
+                    content()
+                }
+            )
+    }
+}
+
 private struct PreviewView: View {
     
     @State private var showModal = false
@@ -40,14 +51,15 @@ private struct PreviewView: View {
             showModal = true
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .overlay(
-            ModalSupportView(
-                showModal: $showModal,
-                content: Text("wieuhfowyf0ohaff")
-                    .background(.red)
-                    .transition(.slide)
-            )
-        )
+        .showModal($showModal, content: {
+            RoundedRectangle(cornerRadius: 30)
+                .padding(40)
+                .padding(.vertical, 100)
+                .onTapGesture {
+                    showModal = false
+                }
+                .transition(.slide)
+        })
     }
 }
 

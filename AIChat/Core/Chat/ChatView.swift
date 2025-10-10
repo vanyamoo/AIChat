@@ -22,37 +22,9 @@ struct ChatView: View {
     @State private var showProfileModal: Bool = false
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 0) {
-                scrollViewSection
-                textFieldSection
-            }
-            
-            ZStack {
-                if showProfileModal {
-                    Color(.black).opacity(0.6)
-                        .ignoresSafeArea()
-                        .transition(AnyTransition.opacity.animation(.smooth))
-                        .onTapGesture {
-                            showProfileModal = false
-                        }
-                    if let avatar {
-                        ProfileModalView(
-                            imageName: avatar.profileImageName,
-                            title: avatar.name ?? "",
-                            subtitle: avatar.characterOption?.rawValue.capitalized,
-                            headline: avatar.characterDescription,
-                            onXMarkPressed: {
-                                showProfileModal = false
-                            }
-                        )
-                        .padding(40)
-                        .transition(.slide)
-                    }
-                }
-            }
-            .zIndex(999)
-            .animation(.bouncy, value: showProfileModal)
+        VStack(spacing: 0) {
+            scrollViewSection
+            textFieldSection
         }
         .navigationTitle(avatar?.name ?? "Chat")
         .navigationBarTitleDisplayMode(.inline)
@@ -67,6 +39,21 @@ struct ChatView: View {
         }
         .showCustomAlert(type: .confirmationDialog, alert: $showChatSettings)
         .showCustomAlert(alert: $alert)
+        .showModal($showProfileModal) {
+            if let avatar {
+                ProfileModalView(
+                    imageName: avatar.profileImageName,
+                    title: avatar.name ?? "",
+                    subtitle: avatar.characterOption?.rawValue.capitalized,
+                    headline: avatar.characterDescription,
+                    onXMarkPressed: {
+                        showProfileModal = false
+                    }
+                )
+                .padding(40)
+                .transition(.slide)
+            }
+        }
     }
     
     private var scrollViewSection: some View {

@@ -22,32 +22,25 @@ struct ChatsView: View {
                         chat: chat,
                         getAvatar: {
                             try? await Task.sleep(for: .seconds(1))
-                            return .mock
+                            return AvatarModel.mocks.randomElement()!
                         },
                         getLastChatMessage: {
                             try? await Task.sleep(for: .seconds(1))
-                            return .mock
+                            return ChatMessageModel.mocks.randomElement()!
                         }
                     )
                     .anyButton(.highlight, action: {
-                        onChatRowPressed(chat)
+                        onChatPressed(chat)
                     })
                     .removeListRowFormatting()
                 }
             }
             .navigationTitle("Chats")
-            .navigationDestination(for: NavigationPathOption.self) { newValue in
-                switch newValue {
-                case .chat(avatarId: let avatarId):
-                    ChatView(avatarId: avatarId)
-                case .category(category: let category, imageName: let imageName):
-                    CategoryListView(category: category, imageName: imageName)
-                }
-            }
+            .navigationDestinationForCoreModule()
         }
     }
     
-    private func onChatRowPressed(_ chat: ChatModel) {
+    private func onChatPressed(_ chat: ChatModel) {
         path.append(.chat(avatarId: chat.avatarId))
     }
 }

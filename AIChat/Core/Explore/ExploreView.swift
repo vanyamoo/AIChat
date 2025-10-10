@@ -12,6 +12,20 @@ enum NavigationPathOption: Hashable {
     case category(category: CharacterOption, imageName: String)
 }
 
+extension View {
+    func navigationDestinationForCoreModule() -> some View {
+        self
+            .navigationDestination(for: NavigationPathOption.self) { newValue in
+                switch newValue {
+                case .chat(avatarId: let avatarId):
+                    ChatView(avatarId: avatarId)
+                case .category(category: let category, imageName: let imageName):
+                    CategoryListView(category: category, imageName: imageName)
+                }
+            }
+    }
+}
+
 struct ExploreView: View {
     
     @State private var featuredAvatars: [AvatarModel] = AvatarModel.mocks
@@ -32,14 +46,7 @@ struct ExploreView: View {
                 
             }
             .navigationTitle("Explore")
-            .navigationDestination(for: NavigationPathOption.self) { newValue in
-                switch newValue {
-                case .chat(avatarId: let avatarId):
-                    ChatView(avatarId: avatarId)
-                case .category(category: let category, imageName: let imageName):
-                    CategoryListView(category: category, imageName: imageName)
-                }
-            }
+            .navigationDestinationForCoreModule()
         }
     }
     
